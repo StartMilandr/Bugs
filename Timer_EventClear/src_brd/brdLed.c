@@ -30,7 +30,12 @@ void BRD_LED_Set(uint32_t LEDs_Sel, uint32_t isOn)
 
 void BRD_LED_Switch(uint32_t LEDs_Sel)
 {
+#ifndef BRD_LED_JTAG_PROT_CLR  
 	BRD_LED_PORT->RXTX ^= LEDs_Sel;
+#else
+  uint32_t reg = BRD_LED_PORT->RXTX;
+  BRD_LED_PORT->RXTX = (reg ^ LEDs_Sel) & BRD_LED_JTAG_PROT_CLR;
+#endif
 }	
 
 

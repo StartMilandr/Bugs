@@ -1,8 +1,3 @@
-#include <MDR32F9Qx_port.h>
-#include <MDR32F9Qx_rst_clk.h>
-#include <MDR32F9Qx_eth.h>
-#include <MDR32F9Qx_eeprom.h>
-
 #include "brdEthernet.h"
 
 // space for incoming packet
@@ -40,20 +35,19 @@ void BRD_ETH_StructInitDef(ETH_InitTypeDef * ETH_InitStruct, uint8_t *srcMAC)
 	// Receiver Change settings
 	ETH_InitStruct->ETH_Receiver_Event_Mode = ETH_RECEIVER_EVENT_MODE_PACET_RECEIVED;
 	
-	ETH_InitStruct->ETH_Receive_All_Packets 			  = DISABLE; //ENABLE;
+	ETH_InitStruct->ETH_Receive_All_Packets 			  = ENABLE; //DISABLE; //
 	ETH_InitStruct->ETH_Short_Frames_Reception 		  = ENABLE; //DISABLE;
-	ETH_InitStruct->ETH_Long_Frames_Reception 	    = DISABLE;
-	ETH_InitStruct->ETH_Broadcast_Frames_Reception  = DISABLE; // ENABLE;
-	ETH_InitStruct->ETH_Error_CRC_Frames_Reception  = DISABLE;
-	ETH_InitStruct->ETH_Control_Frames_Reception 	  = DISABLE;
+	ETH_InitStruct->ETH_Long_Frames_Reception 	    = ENABLE; //DISABLE;
+	ETH_InitStruct->ETH_Broadcast_Frames_Reception  = ENABLE; //DISABLE; // ENABLE;
+	ETH_InitStruct->ETH_Error_CRC_Frames_Reception  = ENABLE; //DISABLE;
+	ETH_InitStruct->ETH_Control_Frames_Reception 	  = ENABLE; //DISABLE;
 	ETH_InitStruct->ETH_Unicast_Frames_Reception 	  = ENABLE;
 	ETH_InitStruct->ETH_Source_Addr_HASH_Filter 	  = DISABLE; //ENABLE;	
 }  
 
 
-void BRD_ETH_Init(MDR_ETHERNET_TypeDef * ETHERNETx, ETH_InitTypeDef * ETH_InitStruct)
-{	
-
+void BRD_ETH_ClockInit(void)
+{
 	// Reset Ehernet clock settings 
 	ETH_ClockDeInit();
 	
@@ -68,8 +62,11 @@ void BRD_ETH_Init(MDR_ETHERNET_TypeDef * ETHERNETx, ETH_InitTypeDef * ETH_InitSt
 	ETH_BRGInit(ETH_HCLKdiv1);
 
 	// Enable the ETHERNET clock
-	ETH_ClockCMD(ETH_CLK1, ENABLE);
+	ETH_ClockCMD(ETH_CLK1, ENABLE);  
+}
 
+void BRD_ETH_Init(MDR_ETHERNET_TypeDef * ETHERNETx, ETH_InitTypeDef * ETH_InitStruct)
+{	
 	// Reset to default ethernet settings
 	ETH_DeInit(ETHERNETx);
 
@@ -118,7 +115,7 @@ uint8_t* BRD_ETH_Init_FrameTX(uint8_t *destMAC, uint8_t *srcMAC, uint16_t frameL
   *payloadLen = frameLen - FRAME_HEAD_SIZE;
   
 	//	Count To Send
-	*(uint32_t *)&FrameTX[0] = frameLen; // - FRAME_CRC_SIZE;
+	*(uint32_t *)&FrameTX[0] = frameLen;
 	
 	// Ethernet
 	/* Set destanation MAC address */
@@ -138,11 +135,8 @@ uint8_t* BRD_ETH_Init_FrameTX(uint8_t *destMAC, uint8_t *srcMAC, uint16_t frameL
 	ptr_TXFrame[11] = srcMAC[5];	
 
   // Return dataCount
- 
 	ptr_TXFrame[12] 	= (uint8_t)((*payloadLen) >> 8);
-	ptr_TXFrame[13] 	= (uint8_t)((*payloadLen) & 0xFF);	
-
-  //(*payloadLen) -= FRAME_CRC_SIZE;
+	ptr_TXFrame[13] 	= (uint8_t)((*payloadLen) & 0xFF);
 
   // Return DataPtr
   return &ptr_TXFrame[FRAME_HEAD_SIZE];

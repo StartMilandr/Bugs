@@ -2,6 +2,8 @@
 
 #define LOG_BUFF_Len  200
 
+uint32_t _TestVar[10];
+
 uint16_t LogData1[LOG_BUFF_Len];
 
 BRD_LogRec BRD_LogRec1 =

@@ -119,7 +119,17 @@
     #define BRD_ADC_7_PORT          MDR_PORTD
     #define BRD_ADC_7_CLOCK         RST_CLK_PCLK_PORTD
    
+//  ----------    DMA Definition -------------
+    #define BRD_DMA_CLOCK_SELECT  (RST_CLK_PCLK_SSP1 | RST_CLK_PCLK_SSP2 | RST_CLK_PCLK_DMA)
+
+//  ----------    DAC Definition -------------
+    #define BRD_DAC1_CLOCK    RST_CLK_PCLK_PORTE
+    #define BRD_DAC1_PORT     MDR_PORTE
+    #define BRD_DAC1_PIN      PORT_Pin_9
     
+    #define BRD_DAC2_CLOCK    RST_CLK_PCLK_PORTE
+    #define BRD_DAC2_PORT     MDR_PORTE
+    #define BRD_DAC2_PIN      PORT_Pin_0
 
 #else
    Please, select board in brdSelect.h!

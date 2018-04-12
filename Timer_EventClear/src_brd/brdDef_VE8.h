@@ -8,21 +8,21 @@
 
 //  Buttons Definition
     #define BRD_BTN_PORT_KEY1     PORTE
-    #define BRD_BTN_PIN_KEY1      PORT_Pin_7
+    #define BRD_BTN_PIN_KEY1      PORT_Pin_18
 
     #define BRD_BTN_PORT_KEY2     PORTE
-    #define BRD_BTN_PIN_KEY2      PORT_Pin_11
+    #define BRD_BTN_PIN_KEY2      PORT_Pin_21
 	
     #define BRD_BTN_PORT_KEY3     PORTE
-    #define BRD_BTN_PIN_KEY3      PORT_Pin_12
+    #define BRD_BTN_PIN_KEY3      PORT_Pin_22
 	
     // for Initialization
     #define BRD_BTNs_PORT_CLK      CLKCTRL_PER0_CLK_MDR_PORTE_EN
-    #define BRD_BTNs_PORT_MASK     PORTE
+    #define BRD_BTNs_PORT          PORTE
     #define BRD_BTNs_PIN_MASK      (BRD_BTN_PIN_KEY1 | BRD_BTN_PIN_KEY2 | BRD_BTN_PIN_KEY3)
     
     //  for Is_BtnAct_...
-    //#define BRD_BTNs_DO_INV  connected to power!
+    #define BRD_BTNs_PUSH_TO_GND  // use if connected to power!
 
     #define BRD_BTN_PORT_SEL    BRD_BTN_PORT_KEY1
     #define BRD_BTN_PORT_UP     BRD_BTN_PORT_KEY2

@@ -9,7 +9,7 @@
 
 //  ------------    BUG ACTIVATE----------
 
-#define BUG_ACTIVATE
+//#define BUG_ACTIVATE
 
 //  --------------------------------
 
@@ -24,6 +24,9 @@
   uint32_t LED_Sel[LED_COUNT] = {BRD_LED_1, BRD_LED_2, BRD_LED_3, BRD_LED_4};
 #endif
 
+#define  PLL_MUX       RST_CLK_CPU_PLLmul10
+#define  LED_FREQ_HZ   1
+  
 uint32_t DoLedSwitch = 0;
 uint32_t DoErrSet = 0;
 
@@ -38,14 +41,16 @@ int main()
   TIMER_CntInitTypeDef TimerInitStruct;
   
   //  Clock 80MHz
-  BRD_Clock_Init_HSE_PLL(10);
+  BRD_Clock_Init_HSE_PLL(PLL_MUX);
   //  LEDs
   BRD_LEDs_Init();
   BRD_LED_Set(LED_SEL_ALL, 0);
   
   //  Timer
-  BRD_Timer_InitStructDef(&TimerInitStruct);
+  BRD_Timer_InitStructDef(&TimerInitStruct, LED_FREQ_HZ, 64000);  // 1Hz, 64000 - ARR desired value
   BRD_Timer_Init(&brdTimer1, &TimerInitStruct);
+  BRD_Timer_InitIRQ(&brdTimer1, 1);
+  BRD_Timer_Start(&brdTimer1);
   
   while (1)
   {

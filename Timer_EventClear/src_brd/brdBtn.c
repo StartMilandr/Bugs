@@ -1,7 +1,4 @@
-#include <MDR32F9Qx_port.h>
-#include <MDR32F9Qx_rst_clk.h>
-
-#include "brdDef.h"
+#include "brdBtn.h"
 	
 // Инициализация линий ввода-вывода для работы с кнопками
 void BRD_BTNs_Init (void)
@@ -10,7 +7,11 @@ void BRD_BTNs_Init (void)
   PORT_InitTypeDef GPIOInitStruct;
 
   // Включение тактирования портов
+#ifndef USE_MDR1986VE3  
   RST_CLK_PCLKcmd (BRD_BTNs_PORT_CLK, ENABLE);
+#else
+  RST_CLK_PCLK2cmd (BRD_BTNs_PORT_CLK, ENABLE);
+#endif  
 
   // Конфигурация линий ввода-вывода
   PORT_StructInit (&GPIOInitStruct);
@@ -32,7 +33,7 @@ void BRD_BTNs_Init (void)
 #endif
 }
 	
-#ifndef BRD_BTNs_DO_INV
+#ifndef BRD_BTNs_PUSH_TO_GND
   #define PORT_READ_PIN(port, pin) (PORT_ReadInputDataBit (port, pin))
 #else
   #define PORT_READ_PIN(port, pin) (!(PORT_ReadInputDataBit (port, pin)))

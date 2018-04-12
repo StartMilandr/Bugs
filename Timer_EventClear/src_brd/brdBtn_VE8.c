@@ -1,4 +1,3 @@
-#include "brdDef.h"
 #include "brdBtn.h"
 
 
@@ -10,7 +9,7 @@ void BRD_BTNs_Init (void)
 
   // Включение тактирования портов
   CLKCTRL_PER0_CLKcmd (BRD_BTNs_PORT_CLK, ENABLE);
-	PORTC->KEY = _KEY_;
+	BRD_BTNs_PORT->KEY = _KEY_;
 
   // Конфигурация линий ввода-вывода
   PORT_StructInit (&GPIOInitStruct);
@@ -25,10 +24,10 @@ void BRD_BTNs_Init (void)
 	GPIOInitStruct.PORT_SIT = PORT_SIT_LOW;  
   
   // Инициализация линий ввода-вывода для работы со светодиодами
-  PORT_Init (BRD_BTNs_PORT_MASK, &GPIOInitStruct);
+  PORT_Init (BRD_BTNs_PORT, &GPIOInitStruct);
 }
 	
-#ifndef BRD_BTNs_DO_INV
+#ifndef BRD_BTNs_PUSH_TO_GND
   #define PORT_READ_PIN(port, pin) (PORT_ReadInputDataBit (port, pin))
 #else
   #define PORT_READ_PIN(port, pin) (!(PORT_ReadInputDataBit (port, pin)))
@@ -44,25 +43,33 @@ uint32_t BRD_Is_BntAct_Up (void)
 	return PORT_READ_PIN(BRD_BTN_PORT_UP, BRD_BTN_PIN_UP);
 }
 
-#ifdef BRD_BTN_PIN_DOWN
 uint32_t BRD_Is_BntAct_Down (void)
 {
 	return PORT_READ_PIN(BRD_BTN_PORT_DOWN, BRD_BTN_PIN_DOWN);
 }
-#endif
 
 #ifdef BRD_BTN_PIN_LEFT
-uint32_t BRD_Is_BntAct_Left (void)
-{
-	return PORT_READ_PIN(BRD_BTN_PORT_LEFT, BRD_BTN_PIN_LEFT);
-}
+  uint32_t BRD_Is_BntAct_Left (void)
+  {
+    return PORT_READ_PIN(BRD_BTN_PORT_LEFT, BRD_BTN_PIN_LEFT);
+  }
+#else
+  uint32_t BRD_Is_BntAct_Left (void)
+  {
+    return BRD_Is_BntAct_Select();
+  }  
 #endif
 
 #ifdef BRD_BTN_PIN_RIGHT
-uint32_t BRD_Is_BntAct_Right (void)
-{
-	return PORT_READ_PIN(BRD_BTN_PORT_RIGHT, BRD_BTN_PIN_RIGHT);
-}
+  uint32_t BRD_Is_BntAct_Right (void)
+  {
+    return PORT_READ_PIN(BRD_BTN_PORT_RIGHT, BRD_BTN_PIN_RIGHT);
+  }
+#else
+  uint32_t BRD_Is_BntAct_Right (void)
+  {
+    return BRD_Is_BntAct_Down();
+  }
 #endif
 
 #ifdef BRD_BTN_PIN_BACK

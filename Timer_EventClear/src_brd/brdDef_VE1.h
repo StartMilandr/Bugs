@@ -3,7 +3,7 @@
 
 #ifdef USE_MDR1986VE1T
 
-//  Buttons Definition
+//  --------------  Buttons Definition  ------------
     #define BRD_BTN_PORT_SEL       MDR_PORTE
     #define BRD_BTN_PIN_SEL        PORT_Pin_9
 
@@ -28,10 +28,10 @@
     #define BRD_BTNs_PIN_MASK      (BRD_BTN_PIN_SEL | BRD_BTN_PIN_UP | BRD_BTN_PIN_RIGHT | BRD_BTN_PIN_DOWN | BRD_BTN_PIN_LEFT | BRD_BTN_PIN_BACK)
     
     //  for Is_BtnAct_...
-    #define BRD_BTNs_DO_INV
+    #define BRD_BTNs_PUSH_TO_GND
 
 
-//  LEDs Definition
+//  ----------    LEDs Definition -------------
     #define BRD_LED_PORT_CLK       RST_CLK_PCLK_PORTD
     #define BRD_LED_PORT           MDR_PORTD
   
@@ -47,7 +47,7 @@
     #define BRD_LED_Pins        (BRD_LED_1 | BRD_LED_2 | BRD_LED_3 | BRD_LED_4  \
                                | BRD_LED_5 | BRD_LED_6 | BRD_LED_7 | BRD_LED_8)
 
-//  SPI Definition
+//  ----------    SPI Definition -------------
 	  #define BRD_SPI1_D_PIN_CLK	PORT_Pin_4
 	  #define BRD_SPI1_D_PIN_TX		PORT_Pin_2
 	  #define BRD_SPI1_D_PIN_RX		PORT_Pin_3
@@ -64,11 +64,11 @@
                                             (3 << (5 * 2))   \
                                         ))
 
-//  DMA Definition
-    #define DMA_CLOCK_SELECT  (RST_CLK_PCLK_SSP1 | RST_CLK_PCLK_SSP2 | RST_CLK_PCLK_SSP3 | RST_CLK_PCLK_DMA)
+//  ----------    DMA Definition -------------
+    #define BRD_DMA_CLOCK_SELECT  (RST_CLK_PCLK_SSP1 | RST_CLK_PCLK_SSP2 | RST_CLK_PCLK_SSP3 |RST_CLK_PCLK_DMA)
 
-                                        
-//  ExtBUS Definition
+
+//  ----------    ExtBUS Definition -------------
     //  Data: [PA0 .. PA15] = [D0 .. D15]    
     #define BRD_EBC_DATA_PORT_LO8         MDR_PORTA
     #define BRD_EBC_DATA_PORT_LO8_CLK     RST_CLK_PCLK_PORTA
@@ -132,6 +132,57 @@
     #define BRD_EBS_A20_D32_CLK  (BRD_EBC_PORT_ADDR20_CLK | BRD_EBC_PORT_ADDR20_1_CLK | BRD_EBC_PORT_ADDR20_2_CLK | \
                                   BRD_EBC_DATA_PORT_LO16_CLK | BRD_EBC_DATA_PORT_HI16_CLK | \
                                   BRD_EBC_PORT_CTRL_CLK | BRD_EBC_PORT_CTRL_1_CLK)
+                                  
+//  ----------    LCD Definition -------------
+    #define BRD_LCD_E1_PORT     MDR_PORTE
+    #define BRD_LCD_E1_PIN      PORT_Pin_13
+
+    #define BRD_LCD_E2_PORT     MDR_PORTE
+    #define BRD_LCD_E2_PIN      PORT_Pin_14
+
+    #define BRD_LCD_A0_PORT     MDR_PORTE
+    #define BRD_LCD_A0_PIN      PORT_Pin_12
+
+//    #define BRD_LCD_RES_PORT    MDR_PORTE
+//    #define BRD_LCD_RES_PIN     PORT_Pin_10
+
+    #define BRD_LCD_RW_PORT     MDR_PORTC
+    #define BRD_LCD_RW_PIN      PORT_Pin_0
+
+    #define BRD_LCD_E_PORT      MDR_PORTC
+    #define BRD_LCD_E_PIN       PORT_Pin_2
+
+    // Initialization
+    #define BRD_LCD_CLOCK     (RST_CLK_PCLK_PORTE | RST_CLK_PCLK_PORTC)
+
+    #define BRD_LCD_IN_PORT         MDR_PORTA
+    #define BRD_LCD_IN_PINS        (PORT_Pin_0 | PORT_Pin_1 | PORT_Pin_2 | PORT_Pin_3 | PORT_Pin_4 | PORT_Pin_5| PORT_Pin_6| PORT_Pin_7) 
+
+    #define BRD_LCD_OUT_PORT        MDR_PORTE
+    #define BRD_LCD_OUT_PINS       (PORT_Pin_12 | PORT_Pin_13 | PORT_Pin_14) 
+
+    #define BRD_LCD_OUT_PORT_EX1    MDR_PORTC
+    #define BRD_LCD_OUT_PINS_EX1   (PORT_Pin_0 | PORT_Pin_2)
+    
+    //  Commands
+    #define LCD_CODE_BUS_OUT        MDR_PORTA->OE |= 0x00FF;
+    
+    #define LCD_CODE_BUS_IN         MDR_PORTA->OE &= 0xFF00;
+                                
+    #define LCD_CODE_WRITE(value)   MDR_PORTA->RXTX &= 0xFF00;          \
+                                    MDR_PORTA->RXTX |= (value & 0xFF);
+                                    
+    #define LCD_CODE_READ     (uint8_t)(MDR_PORTA->RXTX & 0xFF);
+
+//  ----------    DAC Definition -------------
+    #define BRD_DAC1_CLOCK    RST_CLK_PCLK_PORTE
+    #define BRD_DAC1_PORT     MDR_PORTE
+    #define BRD_DAC1_PIN      PORT_Pin_1
+    
+    #define BRD_DAC2_CLOCK    RST_CLK_PCLK_PORTE
+    #define BRD_DAC2_PORT     MDR_PORTE
+    #define BRD_DAC2_PIN      PORT_Pin_2
+
 
 #else
    Please, select board in brdSelect.h!

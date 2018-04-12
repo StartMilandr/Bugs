@@ -23,7 +23,6 @@ void BRD_ADCs_InitStruct(ADC_InitTypeDef  *ADCInitStruct)
 {
   // Общая конфигурация АЦП
   ADC_StructInit (ADCInitStruct);
-  ADCInitStruct->ADC_SynchronousMode      = ADC_SyncMode_Independent;            // Режим запуска модулей АЦП
   ADCInitStruct->ADC_StartDelay           = 0;                                   // Задержка запуска модулей АЦП
   ADCInitStruct->ADC_TempSensor           = ADC_TEMP_SENSOR_Disable;             // Температурный датчик
   ADCInitStruct->ADC_TempSensorAmplifier  = ADC_TEMP_SENSOR_AMPLIFIER_Disable;   // Усилитель температурного датчика

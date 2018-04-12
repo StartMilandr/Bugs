@@ -1,9 +1,12 @@
 #ifndef _BRD_BTN_H
 #define _BRD_BTN_H
 
+#include "brdDef.h"
+
 #ifdef USE_BOARD_VE_8 
   #include  <mdr32f8_port.h>
-  #include  <mdr32f8_clkctrl.h>   
+  #include  <mdr32f8_clkctrl.h>
+
 #else  
   #include <MDR32F9Qx_port.h>
   #include <MDR32F9Qx_rst_clk.h>
