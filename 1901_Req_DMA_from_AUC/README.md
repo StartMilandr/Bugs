@@ -10,8 +10,10 @@ https://github.com/StartMilandr/6.x-DMA_Projects/tree/master/6.5-DMA_ADC/DMA_ADC
   * Либо заполнить FIFO ЦАПа любыми значениями не включая сам ЦАП. Этот вариант реализован в функции BRD_ClockDSP_Init_HSE_PLL_fixDMAIRQ(), которая вынесена в модуль brdClock.c.
 
 Макроопределения в начале main.c выбирают тот, или иной вариант. Если пути обхода не выбраны, то исполнение застревает в DMA_IRQHandler().
-  #define FIX_BY_DMA_EN_AUC          0
-  #define FIX_BY_FILL_AUC_DAC_FIFO   0
+  * #define FIX_BY_DMA_EN_AUC          0
+  * #define FIX_BY_FILL_AUC_DAC_FIFO   0
+
+Пример собран под PACK с поддержкой 1901ВЦ1 отсюда https://github.com/StartMilandr/10-SD_Card/tree/master/SDIO_SDCard_FileSys/Pack_for_1901VC1
 
 ## ИНДИКАЦИЯ:
 При перезапуске циклов DMA переключается светодиод PB15 на отладочной плате
