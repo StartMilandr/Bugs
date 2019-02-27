@@ -3,9 +3,11 @@
 #include <MDR32F9Qx_timer.h>
 
 //  Внесение задержки перед чтением регистра CAP2
-#define FIX_CAP_BY_DELAY  1
+#define FIX_CAP_BY_DELAY  0
 //  Уменьшение разницы частот CPU и TIM_Clock
 #define FIX_CAP_BY_FREQ   0
+//  Hardware_Fix
+#define FIX_CAP_BY_HARD   1
 
 //  Сигнал захвата формируется на выводе PD11 (разъем светодиодов - VD6 (XP19)) - уровень переключается по нажатию на кнопку Down (PC12).
 //  Захватывается сигнал с вывода PD12 (разъем светодиодов - VD7 (XP20))
@@ -53,6 +55,11 @@ int main(void)
 	MDR_TIMER1->DMA_RE = 0;
 
   MDR_TIMER1->IE = (0x6 << TIMER_IE_CCR_CAP_EVENT_IE_Pos);
+
+#if FIX_CAP_BY_HARD
+  MDR_TIMER1->CH2_CNTRL2 = (1 << 4);
+  MDR_TIMER1->CH3_CNTRL2 = (1 << 4);
+#endif
 
 	NVIC_SetPriority (Timer1_IRQn, 1); // Приоритет прерывания
 	NVIC_EnableIRQ(Timer1_IRQn);
